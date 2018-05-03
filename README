@@ -1,0 +1,9 @@
+### React 源码学习
+
+调整了react的源码目录，原有的react项目src下为全局依赖。现将build下的package拿出来，修改原有require下对react的全局引用，安装了
+
+- create-react-class
+- fbjs
+- prop-types
+
+依赖，使用parcel打包，调试起来吧！

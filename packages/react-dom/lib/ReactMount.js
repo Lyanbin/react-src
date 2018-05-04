@@ -33,6 +33,7 @@ var setInnerHTML = require('./setInnerHTML');
 var shouldUpdateReactComponent = require('./shouldUpdateReactComponent');
 var warning = require('fbjs/lib/warning');
 
+// 字符串 data-reactid
 var ATTR_NAME = DOMProperty.ID_ATTRIBUTE_NAME;
 var ROOT_ATTR_NAME = DOMProperty.ROOT_ATTRIBUTE_NAME;
 
@@ -304,10 +305,10 @@ var ReactMount = {
     // _renderValidatedComponent) assume that calls to render aren't nested;
     // verify that that's the case.
     process.env.NODE_ENV !== 'production' ? warning(ReactCurrentOwner.current == null, '_renderNewRootComponent(): Render methods should be a pure function ' + 'of props and state; triggering nested component updates from ' + 'render is not allowed. If necessary, trigger nested updates in ' + 'componentDidUpdate. Check the render method of %s.', ReactCurrentOwner.current && ReactCurrentOwner.current.getName() || 'ReactCompositeComponent') : void 0;
-
     !isValidContainer(container) ? process.env.NODE_ENV !== 'production' ? invariant(false, '_registerComponent(...): Target container is not a DOM element.') : _prodInvariant('37') : void 0;
-
+    // 保持滚动位置
     ReactBrowserEventEmitter.ensureScrollValueMonitoring();
+    // 这里生成dom
     var componentInstance = instantiateReactComponent(nextElement, false);
 
     // The initial render is synchronous but any updates that happen during
@@ -347,18 +348,22 @@ var ReactMount = {
 
     process.env.NODE_ENV !== 'production' ? warning(!container || !container.tagName || container.tagName.toUpperCase() !== 'BODY', 'render(): Rendering components directly into document.body is ' + 'discouraged, since its children are often manipulated by third-party ' + 'scripts and browser extensions. This may lead to subtle ' + 'reconciliation issues. Try rendering into a container element created ' + 'for your app.') : void 0;
 
+
+    // 包裹一层，全部变成react组件，保证后续更新
     var nextWrappedElement = React.createElement(TopLevelWrapper, {
       child: nextElement
     });
 
     var nextContext;
+    // 首次渲染这里是null
     if (parentComponent) {
       var parentInst = ReactInstanceMap.get(parentComponent);
       nextContext = parentInst._processChildContext(parentInst._context);
     } else {
+      // 这里就是 {}
       nextContext = emptyObject;
     }
-
+      // 首次渲染这里是null
     var prevComponent = getTopLevelWrapperInContainer(container);
 
     if (prevComponent) {
@@ -377,9 +382,9 @@ var ReactMount = {
     }
 
     var reactRootElement = getReactRootElementInContainer(container);
+    // 如果有容器有react-id这个属性，则打上react标记，首次渲染当然是false
     var containerHasReactMarkup = reactRootElement && !!internalGetID(reactRootElement);
     var containerHasNonRootReactChild = hasNonRootReactChild(container);
-
     if (process.env.NODE_ENV !== 'production') {
       process.env.NODE_ENV !== 'production' ? warning(!containerHasNonRootReactChild, 'render(...): Replacing React-rendered children with a new root ' + 'component. If you intended to update the children of this node, ' + 'you should instead have the existing children update their state ' + 'and render the new components instead of calling ReactDOM.render.') : void 0;
 

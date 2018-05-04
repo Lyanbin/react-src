@@ -54,8 +54,11 @@ function isInternalComponentType(type) {
  * @protected
  */
 function instantiateReactComponent(node, shouldHaveDebugID) {
+  // node绝大多数情况应该是object
+  // 首次渲染，则node的type为TopLevelWrapper，此时typeof node.type 应为function
   var instance;
-
+  debugger;
+  // 如果是空，就构建一个空
   if (node === null || node === false) {
     instance = ReactEmptyComponent.create(instantiateReactComponent);
   } else if (typeof node === 'object') {
@@ -89,6 +92,7 @@ function instantiateReactComponent(node, shouldHaveDebugID) {
       instance = new ReactCompositeComponentWrapper(element);
     }
   } else if (typeof node === 'string' || typeof node === 'number') {
+    // 如果是字符串或者数字，就是直接创建文本节点
     instance = ReactHostComponent.createInstanceForText(node);
   } else {
     !false ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Encountered invalid React node of type %s', typeof node) : _prodInvariant('131', typeof node) : void 0;

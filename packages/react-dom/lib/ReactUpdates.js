@@ -92,6 +92,7 @@ PooledClass.addPoolingTo(ReactUpdatesFlushTransaction);
 
 function batchedUpdates(callback, a, b, c, d, e) {
   ensureInjected();
+  // 首次渲染中a是生成的真实dom，b是容器
   return batchingStrategy.batchedUpdates(callback, a, b, c, d, e);
 }
 

@@ -77,8 +77,10 @@ function instantiateReactComponent(node, shouldHaveDebugID) {
 
     // Special case string values
     if (typeof element.type === 'string') {
+      // 如果是原生组件，那么就直接创建一个原生组件
       instance = ReactHostComponent.createInternalComponent(element);
     } else if (isInternalComponentType(element.type)) {
+      // 之后可能会用到，当前没用
       // This is temporarily available for custom components that are not string
       // representations. I.e. ART. Once those are updated to use the string
       // representation, we can drop this code path.
@@ -89,6 +91,7 @@ function instantiateReactComponent(node, shouldHaveDebugID) {
         instance.getHostNode = instance.getNativeNode;
       }
     } else {
+      // 否则就是自定义的组件
       instance = new ReactCompositeComponentWrapper(element);
     }
   } else if (typeof node === 'string' || typeof node === 'number') {

@@ -15,6 +15,7 @@ var invariant = require('fbjs/lib/invariant');
 
 var OBSERVED_ERROR = {};
 
+// “事务”创建一个黑箱，它能够包装任何方法，使得在调用方法之前和之后保持某些不变量（即使在调用包装方法时抛出异常）。无论谁实例化一个事务，都可以在创建时提供不变量的执行器。“事务”类本身将为您提供一个附加的自动不变量——任何事务实例在运行时不应该运行的不变量。您通常会创建一个“事务”的多个实例，以重用多次，这可能用于包装几种不同的方法。包装非常简单——它们只需要实现两种方法。
 /**
  * `Transaction` creates a black box that is able to wrap any method such that
  * certain invariants are maintained before and after the method is invoked

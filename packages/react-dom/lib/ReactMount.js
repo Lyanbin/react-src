@@ -308,7 +308,7 @@ var ReactMount = {
     !isValidContainer(container) ? process.env.NODE_ENV !== 'production' ? invariant(false, '_registerComponent(...): Target container is not a DOM element.') : _prodInvariant('37') : void 0;
     // 保持滚动位置
     ReactBrowserEventEmitter.ensureScrollValueMonitoring();
-    // 这里生成dom
+    // 这里生成dom实例
     var componentInstance = instantiateReactComponent(nextElement, false);
 
     // The initial render is synchronous but any updates that happen during

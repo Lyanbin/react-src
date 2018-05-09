@@ -21,9 +21,11 @@ var validateDOMNesting = require('./validateDOMNesting');
 
 /**
  * Text nodes violate a couple assumptions that React makes about components:
- *
+ * 纯文本的节点，缺少了2个react节点应有的规则
  *  - When mounting text into the DOM, adjacent text nodes are merged.
+ * 当挂载文本到dom后，相邻的文本节点被合并了
  *  - Text nodes cannot be assigned a React root ID.
+ * 文本节点无法拥有react root id
  *
  * This component is used to wrap strings between comment nodes so that they
  * can undergo the same reconciliation that is applied to elements.
@@ -100,7 +102,7 @@ _assign(ReactDOMTextComponent.prototype, {
         // (static pages), we can simply return the text as it is.
         return escapedText;
       }
-
+      
       return '<!--' + openingValue + '-->' + escapedText + '<!--' + closingValue + '-->';
     }
   },

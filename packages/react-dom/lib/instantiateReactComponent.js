@@ -77,7 +77,7 @@ function instantiateReactComponent(node, shouldHaveDebugID) {
 
     // Special case string values
     if (typeof element.type === 'string') {
-      // 如果是原生组件，那么就直接创建一个原生组件
+      // 如果是原生组件，那么就直接创建一个原生组件，这里原生组件是指react封装过后的组件，而不是dom，react不直接操纵dom
       instance = ReactHostComponent.createInternalComponent(element);
     } else if (isInternalComponentType(element.type)) {
       // 之后可能会用到，当前没用

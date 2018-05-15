@@ -171,6 +171,7 @@ var TransactionImpl = {
         // of initialize -- if it's still set to OBSERVED_ERROR in the finally
         // block, it means wrapper.initialize threw.
         this.wrapperInitData[i] = OBSERVED_ERROR;
+        // 如果有初始化函数就执行
         this.wrapperInitData[i] = wrapper.initialize ? wrapper.initialize.call(this) : null;
       } finally {
         if (this.wrapperInitData[i] === OBSERVED_ERROR) {

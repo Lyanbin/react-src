@@ -52,16 +52,16 @@ var ReactDefaultBatchingStrategy = {
    */
   // 首次渲染中，callback函数是挂载batchedMountComponentIntoNode，a是生成的真实dom，b是容器
   batchedUpdates: function (callback, a, b, c, d, e) {
-    // 判断是否批量更新过，首次渲染肯定是false
+    // 判断是否批量更新过，首次渲染，是上面的默认值，肯定是false
     var alreadyBatchingUpdates = ReactDefaultBatchingStrategy.isBatchingUpdates;
-
+    // 标记位，正在批量更新
     ReactDefaultBatchingStrategy.isBatchingUpdates = true;
 
     // The code is written this way to avoid extra allocations
     if (alreadyBatchingUpdates) {
       return callback(a, b, c, d, e);
     } else {
-      // // 首次渲染，肯定是false，执行事务，callback为batchedMountComponentIntoNode
+      // 首次渲染，肯定是false，执行事务，callback为batchedMountComponentIntoNode
       return transaction.perform(callback, null, a, b, c, d, e);
     }
   }

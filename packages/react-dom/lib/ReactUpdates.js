@@ -195,11 +195,12 @@ function enqueueUpdate(component) {
   // function, like setState, forceUpdate, etc.; creation and
   // destruction of top-level components is guarded in ReactMount.)
 
+  // 如果批量更新的标记位是false，则开启一次批量更新
   if (!batchingStrategy.isBatchingUpdates) {
     batchingStrategy.batchedUpdates(enqueueUpdate, component);
     return;
   }
-
+  // 如果批量更新的标记位已经是true，则存储
   dirtyComponents.push(component);
   if (component._updateBatchNumber == null) {
     component._updateBatchNumber = updateBatchNumber + 1;
